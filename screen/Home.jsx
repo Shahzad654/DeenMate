@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  ScrollView,
 } from "react-native";
 import { COLORS } from "../styles/GlobalStyle";
 import Icon from "react-native-vector-icons/Feather";
@@ -45,67 +46,97 @@ export default function Home({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.background}>
-      <SafeAreaView>
-        <View style={styles.homeContainer}>
-          <View style={styles.innerHome}>
-            <View style={styles.textContainer}>
-              <Text style={styles.heading}>Assalam-o-Alaikum,</Text>
-              <Text style={styles.subheading}>May Allah bless you!</Text>
-              <Text style={styles.dateText}>{date}</Text>
-              <Text style={styles.dateText}>
-                {hijriDate ? hijriDate : "Loading..."}
-              </Text>
+    <ScrollView>
+      <View style={styles.background}>
+        <SafeAreaView>
+          <View style={styles.homeContainer}>
+            <View style={styles.innerHome}>
+              <View style={styles.textContainer}>
+                <Text style={styles.heading}>Assalam-o-Alaikum,</Text>
+                <Text style={styles.subheading}>May Allah bless you!</Text>
+                <Text style={styles.dateText}>{date}</Text>
+                <Text style={styles.dateText}>
+                  {hijriDate ? hijriDate : "Loading..."}
+                </Text>
+              </View>
+
+              <TouchableOpacity style={styles.iconWrapper}>
+                <Icon
+                  name="book-open"
+                  size={40}
+                  color="white"
+                  style={styles.shadowEffect}
+                />
+              </TouchableOpacity>
             </View>
+          </View>
 
-            <TouchableOpacity style={styles.iconWrapper}>
-              <Icon
-                name="book-open"
-                size={40}
-                color="white"
-                style={styles.shadowEffect}
-              />
+          <View style={styles.featureCards}>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate("Tasbeeh")}
+            >
+              <Image source={TasbeehImg} style={styles.cardImage} />
+              <Text style={styles.cardText}>Tasbih</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate("calendar")}
+            >
+              <Image source={CalendarImg} style={styles.cardImage} />
+              <Text style={styles.cardText}>Islamic Calendar</Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        <View style={styles.featureCards}>
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate("Tasbeeh")}
-          >
-            <Image source={TasbeehImg} style={styles.cardImage} />
-            <Text style={styles.cardText}>Tasbih</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate("calendar")}
-          >
-            <Image source={CalendarImg} style={styles.cardImage} />
-            <Text style={styles.cardText}>Islamic Calendar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.followUsCard}>
-          <Text style={styles.followUsText}>Follow Us</Text>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => Linking.openURL("https://www.instagram.com")}
+          <View style={styles.ayahCard}>
+            <Text style={{ fontSize: 16 }}>
+              رسول اللہ صلی اللہ علیہ وسلم نے فرمایا اسلام کی بنیاد پانچ چیزوں
+              پر قائم کی گئی ہے۔ اول گواہی دینا کہ اللہ کے سوا کوئی معبود نہیں
+              اور بیشک حضرت محمد صلی اللہ علیہ وسلم اللہ کے سچے رسول ہیں اور
+              نماز قائم کرنا اور زکوٰۃ ادا کرنا اور حج کرنا اور رمضان کے روزے
+              رکھنا
+            </Text>
+            <Text
+              style={{
+                color: COLORS.primary,
+                fontSize: 15,
+                fontWeight: "700",
+                marginTop: 5,
+              }}
             >
-              <FontAwesome name="instagram" size={30} color="#E4405F" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => Linking.openURL("https://www.linkedin.com")}
-            >
-              <FontAwesome name="linkedin" size={30} color="#0077B5" />
-            </TouchableOpacity>
+              صحیح بخاری
+            </Text>
           </View>
-        </View>
-      </SafeAreaView>
-    </View>
+
+          <View style={styles.followUsCard}>
+            <Text style={styles.followUsText}>Follow Us</Text>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.instagram.com/devs.shahzad?igsh=MWRmMGxuaHl4OHBnaA=="
+                  )
+                }
+              >
+                <FontAwesome name="instagram" size={30} color="#E4405F" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.linkedin.com/in/muhammadshahzad413/"
+                  )
+                }
+              >
+                <FontAwesome name="linkedin" size={30} color="#0077B5" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -113,6 +144,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "#F3F4F6",
+    paddingBottom: 100,
   },
   homeContainer: {
     height: 220,
@@ -224,5 +256,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#F3F3F3",
     elevation: 2,
+  },
+  ayahCard: {
+    marginTop: 40,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    alignItems: "center",
+    marginHorizontal: 20,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    width: 320,
+    height: "auto",
   },
 });

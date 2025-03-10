@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS } from "../styles/GlobalStyle";
 import { Appbar } from "react-native-paper";
@@ -6,7 +13,7 @@ import axios from "axios";
 
 const AlAsma = ({ navigation }) => {
   const [names, setNames] = useState([]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNames = async () => {
@@ -16,7 +23,6 @@ const AlAsma = ({ navigation }) => {
         );
 
         if (response.data) {
-         
           const namesArray = Object.values(response.data);
           setNames(namesArray);
         } else {
@@ -24,18 +30,19 @@ const AlAsma = ({ navigation }) => {
         }
       } catch (error) {
         console.log("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchNames();
   }, []);
 
-  
   const renderNameItem = ({ item, index }) => (
     <View style={styles.itemContainer}>
-        <View style={styles.indexContainer}>
+      <View style={styles.indexContainer}>
         <Text style={styles.indexText}>{index + 1}</Text>
-        </View>
+      </View>
       <Text style={styles.arabicText}>{item.native}</Text>
       <Text style={styles.latinText}>{item.latin}</Text>
     </View>
@@ -45,17 +52,26 @@ const AlAsma = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <SafeAreaView>
         <Appbar.Header style={styles.appbarHeader}>
-          <Appbar.BackAction onPress={() => navigation.goBack()} color="white" />
+          <Appbar.BackAction
+            onPress={() => navigation.goBack()}
+            color="white"
+          />
           <Appbar.Content title="Al Asma" color="white" />
           <Appbar.Action icon="book" color="white" />
         </Appbar.Header>
       </SafeAreaView>
 
-      <FlatList
-        data={names}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderNameItem} 
-      />
+      {loading ? (
+        <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+      ) : (
+        <FlatList
+          data={names}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderNameItem}
+        />
+      )}
     </View>
   );
 };
@@ -70,6 +86,11 @@ const styles = StyleSheet.create({
   appbarHeader: {
     backgroundColor: COLORS.primary,
   },
+  loaderContainer: {
+    flex: 1, 
+    justifyContent: "center",
+    alignItems: "center",
+  },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -82,15 +103,13 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: COLORS.primary,
     borderRadius: 30,
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
-
   },
   indexText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: 'white', 
-    
+    color: "white",
   },
   arabicText: {
     fontSize: 20,
@@ -103,6 +122,6 @@ const styles = StyleSheet.create({
     color: "gray",
     flex: 1,
     textAlign: "left",
-    marginLeft: 10
+    marginLeft: 10,
   },
 });
