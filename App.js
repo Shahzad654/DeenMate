@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Splash" component={Splash} />
+       <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name='tab' component={TabNav}/>
         <Stack.Screen name="Surah" component={Surah} />
         <Stack.Screen name="Tasbeeh" component={Tasbeeh} />
