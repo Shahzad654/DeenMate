@@ -42,11 +42,10 @@ export default function Hadith({ navigation }) {
       <Text style={styles.arabicText}>{item.hadithArabic}</Text>
       <Text style={styles.urduText}>{item.urduNarrator}</Text>
       <Text style={styles.urduText}>{item.hadithUrdu}</Text>
-      <Text style={styles.bookSlug}>{item.englishNarrator}</Text>
-      <Text style={styles.bookSlug}>{item.hadithEnglish}</Text>
+      <Text style={styles.englishText}>{item.englishNarrator}</Text>
+      <Text style={styles.englishText}>{item.hadithEnglish}</Text>
       <Text style={styles.statusText}>{item.status}</Text>
       <Text style={styles.bookSlug}>{item.bookSlug}</Text>
-    
     </View>
   );
 
@@ -117,15 +116,19 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginBottom: 5,
   },
-  status: {
+  englishText: {
+    fontSize: 14,
+    color: COLORS.primary,
+  },
+  statusText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "green",
+    color: "gray",
     marginBottom: 3,
   },
   bookSlug: {
     fontSize: 14,
     fontWeight: "bold",
-    color: COLORS.primary,
+    color: "gray",
   },
 });
